@@ -16,8 +16,9 @@ services:
         config:
           allowed_payload_size: 1
 
-  - name: jira-mcp-proxy-service
-    url: http://172.17.0.1:8030
+  - name: jira-proxy-service
+    url: http://172.17.0.1:8021
+    # No plugins needed for path rewriting now
 
 routes:
   - name: my-route
@@ -28,11 +29,12 @@ routes:
   - name: jira-route
     service: jira-service
     paths:
-      - /jira 
+      - /jira
     strip_path: true
 
   - name: jira-proxy-route
-    service: jira-mcp-proxy-service
+    service: jira-proxy-service
     paths:
-      - /jira-proxy
-    strip_path: true
+      - /api/jira         # future-proof base path
+    strip_path: false      # keep /api/jira/... when forwarding
+    preserve_host: true
