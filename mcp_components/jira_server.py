@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import os
+import os, json
 import re
 import base64
 import httpx
@@ -60,12 +60,14 @@ async def get_issue_details(issue_key: str) -> str:
                 # In v2, this is a plain string or null
                 description = fields.get('description') or "No description provided."
 
-                return (
-                    f"✅ SUCCESS: {issue_key}\n"
-                    f"Summary: {summary}\n"
-                    f"Status: {status}\n"
-                    f"Description:\n{description}"
-                )
+                format_data = {
+                    "issue_key": issue_key,
+                    "summary": summary,
+                    "status": status,
+                    "description": description
+                }
+
+                return json.dumps(format_data)
 
             # Handle 404 Not Found
             elif response.status_code == 404:

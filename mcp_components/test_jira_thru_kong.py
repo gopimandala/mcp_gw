@@ -6,7 +6,7 @@ import json
 async def test_jira_thru_kong():
     # Update to your Kong Gateway address
     KONG_URL = "http://localhost:8000/jira/mcp"
-    ISSUE_KEY = "KAN-65"
+    ISSUE_KEY = "KAN-31"
     
     async with httpx.AsyncClient() as client:
         print("🚀 [1/4] Connecting to Kong...")
@@ -101,7 +101,10 @@ async def test_jira_thru_kong():
                         content = result.get('content', [])
                         
                         if content and len(content) > 0:
-                            print(f"\n✅ SUCCESS! Issue Details:\n{content[0].get('text')}")
+                            raw_text = content[0].get('text', '')
+                            clean_text = raw_text.strip()
+                            print(f"SUCCESS! Issue Details:{clean_text}")
+                            print("-" * 50)
                         elif 'error' in data_json:
                             print(f"❌ Server Error: {data_json['error']}")
                         else:

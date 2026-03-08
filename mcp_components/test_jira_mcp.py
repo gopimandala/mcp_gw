@@ -7,7 +7,10 @@ import asyncio
 import httpx
 import json
 
-target_url = "http://127.0.0.1:8012/jira"
+# target_url = "http://127.0.0.1:8011/mcp"
+target_url = "http://127.0.0.1:9050/mcp"
+
+jira_issue_key = "KAN-30"
 
 async def test_jira_mcp():
     """Test Jira MCP tool call"""
@@ -56,7 +59,7 @@ async def test_jira_mcp():
                 "method": "tools/call",
                 "params": {
                     "name": "get_issue_details",
-                    "arguments": {"issue_key": "KAN-65"}
+                    "arguments": {"issue_key": jira_issue_key}
                 }
             },
             headers={

@@ -10,11 +10,14 @@ services:
           hour: 100
 
   - name: jira-service
-    url: http://172.17.0.1:8011
+    url: http://172.17.0.1:8020
     plugins:
       - name: request-size-limiting
         config:
           allowed_payload_size: 1
+
+  - name: jira-mcp-proxy-service
+    url: http://172.17.0.1:8030
 
 routes:
   - name: my-route
@@ -26,4 +29,10 @@ routes:
     service: jira-service
     paths:
       - /jira 
+    strip_path: true
+
+  - name: jira-proxy-route
+    service: jira-mcp-proxy-service
+    paths:
+      - /jira-proxy
     strip_path: true
