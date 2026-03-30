@@ -5,7 +5,7 @@
 source .env
 
 # Start with Uvicorn
-uv run uvicorn server:app \
+uv run uvicorn jira_server:app \
     --host $HOST \
     --port $PORT \
     --workers $WORKERS \

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Simple MCP client test - direct tool call
+Simple MCP client test - direct tool call to Jira server
 """
 
 import asyncio
@@ -45,7 +45,7 @@ async def test_mcp_direct():
         print(f"📋 Init status: {init_response.status_code}")
         
         # Step 3: Direct tool call
-        print("🧮 Calling add_numbers tool...")
+        print("🎫 Calling get_issue_details tool...")
         call_response = await client.post(
             "http://127.0.0.1:8011/mcp",
             json={
@@ -53,8 +53,8 @@ async def test_mcp_direct():
                 "id": 2,
                 "method": "tools/call",
                 "params": {
-                    "name": "add_numbers",
-                    "arguments": {"a": 5, "b": 3}
+                    "name": "get_issue_details",
+                    "arguments": {"issue_key": "TEST-123"}
                 }
             },
             headers={
@@ -81,7 +81,7 @@ async def test_mcp_direct():
                             # Direct access to structured content
                             structured_result = result.get("result", {}).get("structuredContent", {})
                             actual_result = structured_result.get("result") if isinstance(structured_result, dict) else structured_result
-                            print(f"✅ 5 + 3 = {actual_result}")
+                            print(f"✅ Jira issue result: {actual_result}")
                         elif 'error' in result:
                             print(f"❌ Server error: {result['error']}")
                         break
